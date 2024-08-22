@@ -1,0 +1,78 @@
+# Create VM
+
+# Install OS
+
+# Bootstrap pkg
+`pkg`
+
+
+# Check installed packages
+`pkg info`
+
+# install requirements:
+`pkg install -y firebird30-server mod_php83 php83-pdo_firebird`
+
+# Firebird Config file
+`cd /usr/local/etc/firebird`
+`cp firebird.conf.sample firebird.conf`
+
+# Firebird superuser and db user accounts
+`isql-fb employee`
+`create user sysdba password 'supersecretpassword';`
+# A user for this database(best not to use sysdba)
+`create user tasks password 'tasks';`
+
+
+
+# Create user for DB
+## FB now longer uses legacy authentication
+### DB engine has to be stopped!
+`/usr/local/etc/rc.d/firebird stop`
+
+
+# Enable services
+`service firebird enable`
+`service apache24 enable`
+`service php-fpm enable`
+
+# Create a phpinfo script
+`cd /usr/local/www/apache24/data/`
+`vi phpinfo.php`
+# add phpinfo(); in between <?php and ?> tags
+
+# Add the "AddHandler application/x-httpd-php .php' to httpd.conf
+SetHandler application/x-httpd-php
+
+
+# Start Apache
+`/usr/local/etc/rc.d/apache24 start`
+
+# Test webserver and php install
+get IP and test in a browser. NOT HTTPS. (did you unselect firewall on VM creation)
+
+# Note no PDO_Firebird in phpinfo, and no config file loaded
+# put Production ini file into operation
+`cd /usr/local/etc/`
+`cp php.ini-production php.ini`
+# Restart apache24, and check phpinfo
+
+
+
+# Check PHP install via phpinfo()
+
+# Create firebird directory
+# Create schema for DB
+
+
+
+
+
+# Create webroot
+
+# Pull down ActiveBlocks
+
+# Configure AB for schema
+
+# Pull in schema
+`isql-fb -user tasks -pass tasks < tasks.sql`
+
